@@ -10,6 +10,10 @@ Menú de gestión de empresas por Keux00
 #include <string.h>
 #include <stdbool.h>
 
+// Definimos un valor fijo, en este caso la cantidad máxima de empleados
+
+#define EMP 500
+
 // Definimos las variables
 
 int h;
@@ -40,7 +44,7 @@ int edad;
 int anyo;
 struct proyecto proyecto_empleado[10];
 int eliminar;
-}lista[500];
+}lista[EMP];
 
 // Función para recoger los datos del empleado
 
