@@ -10,7 +10,7 @@ Menú de gestión de empresas por Keux00
 #include <string.h>
 #include <stdbool.h>
 
-// Definimos un valor fijo, en este caso la cantidad máxima de empleados
+// Definimos el tamaño máximo de empleados
 
 #define EMP 500
 
@@ -24,16 +24,17 @@ int pos;
 int continuar='Y';
 int numident;
 int empleados_registrados=0;
-int proyectos_registrados=0;
 
 // Hacemos y preparamos las estructuras y sus datos correspondientes
 
-struct proyecto
+typedef struct proyectos
 {
 char nombreproyecto[60];
 int presupuestoproyecto;
 int eliminarp;
-};
+int proyectos_registrados;
+}proyectos;
+
 
 struct empleado
 {
@@ -42,8 +43,8 @@ char apellido[50];
 int numidentif;
 int edad;
 int anyo;
-struct proyecto proyecto_empleado[10];
 int eliminar;
+proyectos proyectos[10];
 }lista[EMP];
 
 // Función para recoger los datos del empleado
@@ -195,66 +196,61 @@ int modificar_datos(){
 	getch();
 }
 
-// Funcion para listar proyectos de un empleado
+// Función para listar proyectos de un empleado
 
 void listar_proyectos(){
-/*
-printf("\n Listado de proyectos");
+	
+	printf ("\n Introduzca el num. identif del empleado: ");
+	scanf("%d",&numident);
+		
+	printf("\n Listado de proyectos");
 	printf("\n");
-	if(proyectos_registrados==0) printf("\n No se ha registrado ningun proyecto");
-	for (i=0; i<n;i++){
-		if (proyecto[i].eliminarp==0 && n>0){
-			printf("\n\t__________________________________________________________________\n\n");
-			printf("\n Proyecto numero %d: ",i+1);
-			printf("%s" ,proyecto[i].nombreproyecto);
-			printf("\n Presupuesto del proyecto: %d",proyecto[i].presupuestoproyecto);
+
+	for (i=0,h=0;i<n;i++,h++){
+		
+		if(numident == lista[i].numidentif){
+			
+			if (lista[i].proyectos[h].eliminarp==0 && n>0)
+			{
+				
+				printf("\n Proyecto numero %d: ",i+1);
+				printf("\n Nombre del proyecto: %s" ,lista[i].proyectos[h].nombreproyecto);
+				printf("\n Presupuesto del proyecto: %d",lista[i].proyectos[h].presupuestoproyecto);
+				printf("\n");
+				i=n;
+			}
 		}
 	}
-	getch();
-	*/
 }
 
 // Función para asignar proyectos a un empleado
 
-void asignar_proyecto(){
+int asignar_proyecto(){
 	
-	/*
-		bool proyecto_no_registrado=false;
+	int a;
 	
-		printf ("\n Introduzca el num. identif del empleado: ");
+		printf ("\n Introduzca el num. identif del empleado a modificar: ");
 		scanf("%d",&numident);
-		
 		for (i=0; i<n;i++){
+
 			if(numident == lista[i].numidentif){
+
+				do {
+					printf("\n Introduzca los datos del proyecto");
+					printf("\n");
+					printf("\n Nombre: "); scanf("%s",&lista[i].proyectos[h].nombreproyecto);
+					printf("\n Presupuesto: "); scanf("%d",&lista[i].proyectos[h].presupuestoproyecto);
+					lista[i].proyectos[h].eliminarp=0;
+					i++;
+					lista[i].proyectos[h].proyectos_registrados++;
+					printf("\n Desea continuar(Y/N): ");
+					continuar=getch();
+					
+				}while(toupper(continuar)!='N');
 				
-				for (h=0;h<lista[i].proyecto_empleado;h++)
-				{
-				printf("\n Proyectos actuales: ");
-				printf("\n Proyecto numero %d: ",h+1);
-				printf("%s", proyecto[h].nombreproyecto);
-				printf("\n Presupuesto del proyecto: %d",proyecto[h].presupuestoproyecto);
-				}
-				
-				printf("\n Nuevo proyecto: ");
-				printf("\n Nombre: ");
-				scanf("%s",&proyecto[400].nombreproyecto);
-				printf("\n Presupuesto: ");
-				scanf("%d",&proyecto[400].presupuestoproyecto);
-			
-				strcpy(proyecto[i].nombreproyecto, proyecto[400].nombreproyecto);
-				proyecto[i].presupuestoproyecto = proyecto[400].presupuestoproyecto;
-				
-				printf("\n Datos modificados exitosamente!");
-				proyecto[i].eliminarp=0;
-				proyecto_no_registrado=false;
 				i=n;
-			}
-			else proyecto_no_registrado=true;
+			}	
 		}
-	
-	if(proyecto_no_registrado == true) printf("\n Proyecto no registrado ");
-	getch();
-	*/
 }
 
 void darbaja_proyecto(){
@@ -269,7 +265,7 @@ void cargar_fichero(){
 
 // Función menú
 
-void menu(){
+int menu(){
 	
 int opcion;
  
@@ -298,7 +294,7 @@ int opcion;
 	if(opcion==5){asignar_proyecto();}
 	if(opcion==6){darbaja_proyecto();}	
 	if(opcion==7){mostrar_datos();}
- 	if(opcion==8){ guardar_fichero();}
+ 	if(opcion==8){guardar_fichero();}
  	if(opcion==9){cargar_fichero();}
  	if(opcion==10)
 		{
